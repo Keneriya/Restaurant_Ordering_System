@@ -12,12 +12,11 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class MenuItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable=false) private String name;
-    @Column(length=1000) private String description;
-    @Column(nullable=false, precision=10, scale=2) private BigDecimal price;
+
+    private String name;
+    private String description;
+    private BigDecimal price;
     private String imageUrl;
-    @Column(nullable=false) private boolean active = true;
-}
+    private Boolean active = true;}

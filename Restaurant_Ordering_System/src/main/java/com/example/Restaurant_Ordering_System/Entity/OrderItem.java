@@ -10,22 +10,17 @@ import java.math.BigDecimal;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class OrderItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    @ManyToOne(optional=false) @JoinColumn(name="order_id")
+    @ManyToOne
     private Order order;
 
-
-    @ManyToOne(optional=false)
+    @ManyToOne
     private MenuItem menuItem;
 
-
-    @Column(nullable=false) private int quantity;
-    @Column(nullable=false, precision=10, scale=2) private BigDecimal unitPrice;
-    @Column(nullable=false, precision=10, scale=2) private BigDecimal subtotal;
+    private int quantity;
+    private BigDecimal unitPrice;
+    private BigDecimal subtotal;
 }

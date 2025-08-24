@@ -13,29 +13,17 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@Table(name = "Orders")
 public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    @ManyToOne(optional=false)
+    @ManyToOne
     private User customer;
 
-
     @Enumerated(EnumType.STRING)
-    @Column(nullable=false)
-    private OrderStatus status = OrderStatus.PENDING;
+    private OrderStatus status;
 
-
-    @Column(nullable=false, precision=10, scale=2)
-    private BigDecimal total;
-
-
-    private Instant createdAt = Instant.now();
-
-
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItem> items = new ArrayList<>();
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderItem> items;
 }
