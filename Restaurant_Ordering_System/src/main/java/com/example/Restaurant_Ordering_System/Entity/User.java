@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
+import java.util.List;
 
 @Entity
 @Getter
@@ -11,13 +12,18 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "Users")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable=false) private String name;
-    @Column(nullable=false, unique=true) private String email;
-    @Column(nullable=false) private String password;
-    @Enumerated(EnumType.STRING) @Column(nullable=false) private Role role;
-    private Instant createdAt = Instant.now();
+
+    private String name;
+    private String email;
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders;
 }
