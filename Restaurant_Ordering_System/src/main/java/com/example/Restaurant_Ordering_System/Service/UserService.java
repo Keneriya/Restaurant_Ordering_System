@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    private final UserRepository userRepository;
+    public final UserRepository userRepository;
     // private final PasswordEncoder encoder;
 
     public UserService(UserRepository userRepository) {
