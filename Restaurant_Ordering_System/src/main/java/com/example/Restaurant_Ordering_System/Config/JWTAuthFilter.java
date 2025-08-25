@@ -1,6 +1,7 @@
 package com.example.Restaurant_Ordering_System.Config;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
