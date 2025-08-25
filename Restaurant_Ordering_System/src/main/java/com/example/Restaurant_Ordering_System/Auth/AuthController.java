@@ -1,10 +1,12 @@
 package com.example.Restaurant_Ordering_System.Controller;
 
+import com.example.Restaurant_Ordering_System.Config.JwtUtils;
 import com.example.Restaurant_Ordering_System.DTO.AuthDtos;
 import com.example.Restaurant_Ordering_System.Entity.User;
 import com.example.Restaurant_Ordering_System.Service.AuthService;
 import com.example.Restaurant_Ordering_System.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
 
     private final UserService userService;
     private final PasswordEncoder encoder;

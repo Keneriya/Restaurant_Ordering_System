@@ -1,4 +1,4 @@
-package com.example.Restaurant_Ordering_System.DTO;
+package com.example.Restaurant_Ordering_System.Auth;
 
 public class AuthDtos {
     public record LoginRequest(String email, String password) {}
