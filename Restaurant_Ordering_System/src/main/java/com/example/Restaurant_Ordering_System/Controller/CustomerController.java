@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/customer")
 public class CustomerController {
+
     private final MenuService menuService;
     private final OrderService orderService;
 
@@ -26,13 +27,13 @@ public class CustomerController {
     }
 
     @PostMapping("/orders")
-    public OrderDtos.OrderResponse placeOrder(/*@AuthenticationPrincipal*/ User customer,
+    public OrderDtos.OrderResponse placeOrder(@AuthenticationPrincipal User customer,
                                               @RequestBody OrderDtos.OrderRequest req) {
         return orderService.placeOrder(customer, req);
     }
 
     @GetMapping("/orders")
-    public List<OrderDtos.OrderResponse> getOrders(/*@AuthenticationPrincipal*/ User customer) {
+    public List<OrderDtos.OrderResponse> getOrders(@AuthenticationPrincipal User customer) {
         return orderService.getOrdersByCustomer(customer);
     }
 }

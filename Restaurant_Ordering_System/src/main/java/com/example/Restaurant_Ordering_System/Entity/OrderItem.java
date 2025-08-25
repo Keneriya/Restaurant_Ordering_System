@@ -6,10 +6,8 @@ import lombok.*;
 import java.math.BigDecimal;
 
 @Entity
-@Setter
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@Setter
 public class OrderItem {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,4 +21,6 @@ public class OrderItem {
     private int quantity;
     private BigDecimal unitPrice;
     private BigDecimal subtotal;
+
+
 }

@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
+
     private final OrderRepository orderRepository;
     private final OrderItemRepo orderItemRepository;
     private final MenuItemRepo menuItemRepository;
@@ -32,13 +33,12 @@ public class OrderService {
         order.setStatus(OrderStatus.PENDING);
         order = orderRepository.save(order);
 
-        Order finalOrder = order;
         List<OrderItem> items = request.items().stream().map(itemReq -> {
             MenuItem menuItem = menuItemRepository.findById(itemReq.menuItemId())
                     .orElseThrow(() -> new RuntimeException("MenuItem not found"));
 
             OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(finalOrder);
+            orderItem.setOrder(order);
             orderItem.setMenuItem(menuItem);
             orderItem.setQuantity(itemReq.quantity());
             orderItem.setUnitPrice(menuItem.getPrice());

@@ -3,11 +3,14 @@ package com.example.Restaurant_Ordering_System.Service;
 import com.example.Restaurant_Ordering_System.DTO.MenuDtos;
 import com.example.Restaurant_Ordering_System.Entity.MenuItem;
 import com.example.Restaurant_Ordering_System.Repositories.MenuItemRepo;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class MenuService {
+
     private final MenuItemRepo menuItemRepository;
 
     public MenuService(MenuItemRepo menuItemRepository) {

@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
+
     private final MenuService menuService;
     private final OrderService orderService;
 
