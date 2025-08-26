@@ -3,7 +3,7 @@ package com.example.Restaurant_Ordering_System.Service;
 import com.example.Restaurant_Ordering_System.Entity.Role;
 import com.example.Restaurant_Ordering_System.Entity.User;
 import com.example.Restaurant_Ordering_System.Repositories.UserRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,7 +13,7 @@ public class UserService {
     private User request;
     // private final PasswordEncoder encoder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder encoder) {
+    public UserService(UserRepository userRepository /*PasswordEncoder encoder*/) {
         this.userRepository = userRepository;
         //this.encoder = encoder;
     }
