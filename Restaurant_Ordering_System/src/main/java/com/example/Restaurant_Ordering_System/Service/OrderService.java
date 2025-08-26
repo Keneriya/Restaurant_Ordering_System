@@ -31,20 +31,23 @@ public class OrderService {
         Order order = new Order();
         order.setCustomer(customer);
         order.setStatus(OrderStatus.PENDING);
-        order = orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order); // new variable
 
-        List<OrderItem> items = request.items().stream().map(itemReq -> {
-            MenuItem menuItem = menuItemRepository.findById(itemReq.menuItemId())
-                    .orElseThrow(() -> new RuntimeException("MenuItem not found"));
+        List<OrderItem> items = request.items().stream()
+                .map(itemReq -> {
+                    MenuItem menuItem = menuItemRepository.findById(itemReq.menuItemId())
+                            .orElseThrow(() -> new RuntimeException("MenuItem not found"));
 
-            OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order);
-            orderItem.setMenuItem(menuItem);
-            orderItem.setQuantity(itemReq.quantity());
-            orderItem.setUnitPrice(menuItem.getPrice());
-            orderItem.setSubtotal(menuItem.getPrice().multiply(BigDecimal.valueOf(itemReq.quantity())));
-            return orderItemRepository.save(orderItem);
-        }).toList();
+                    OrderItem orderItem = new OrderItem();
+                    orderItem.setOrder(order);
+                    orderItem.setMenuItem(menuItem);
+                    orderItem.setQuantity(itemReq.quantity());
+                    orderItem.setUnitPrice(menuItem.getPrice());
+                    orderItem.setSubtotal(menuItem.getPrice().multiply(BigDecimal.valueOf(itemReq.quantity())));
+                    return orderItemRepository.save(orderItem);
+                })
+                .collect(Collectors.toList()); // ✅ works in all Java versions
+
 
         order.setItems(items);
         return mapToResponse(order);

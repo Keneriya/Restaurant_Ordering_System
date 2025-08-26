@@ -10,7 +10,8 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     public final UserRepository userRepository;
-   // private final PasswordEncoder encoder;
+    private User request;
+    // private final PasswordEncoder encoder;
 
     public UserService(UserRepository userRepository, PasswordEncoder encoder) {
         this.userRepository = userRepository;
@@ -21,8 +22,7 @@ public class UserService {
         User user = new User();
         user.setName(name);
         user.setEmail(email);
-        user.setPassword();
-       // user.setPassword(encoder.encode(password));
+        user.setPassword(request.getPassword());       // user.setPassword(encoder.encode(password));
         user.setRole(Role.CUSTOMER);
         return userRepository.save(user);
     }
@@ -31,8 +31,7 @@ public class UserService {
         User user = new User();
         user.setName(name);
         user.setEmail(email);
-        user.setPassword();
-        //user.setPassword(encoder.encode(password));
+        user.setPassword(request.getPassword());        //user.setPassword(encoder.encode(password));
         user.setRole(Role.ADMIN);
         return userRepository.save(user);
     }
