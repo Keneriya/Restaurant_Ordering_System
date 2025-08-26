@@ -5,6 +5,7 @@ import com.example.Restaurant_Ordering_System.DTO.OrderDtos;
 import com.example.Restaurant_Ordering_System.Entity.User;
 import com.example.Restaurant_Ordering_System.Service.MenuService;
 import com.example.Restaurant_Ordering_System.Service.OrderService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
