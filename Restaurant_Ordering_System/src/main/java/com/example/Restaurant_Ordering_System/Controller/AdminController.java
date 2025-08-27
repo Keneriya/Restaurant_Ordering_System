@@ -8,6 +8,7 @@ import com.example.Restaurant_Ordering_System.Service.OrderService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -51,7 +52,11 @@ public class AdminController {
     }
 
     @PatchMapping("/orders/{id}/status")
-    public OrderDtos.OrderResponse updateOrderStatus(@PathVariable Long id, @RequestBody String status) {
+    public OrderDtos.OrderResponse updateOrderStatus(
+            @PathVariable Long id,
+            @RequestBody Map<String, String> request) {
+
+        String status = request.get("status");
         return orderService.updateOrderStatus(id, OrderStatus.valueOf(status.toUpperCase()));
     }
 }
