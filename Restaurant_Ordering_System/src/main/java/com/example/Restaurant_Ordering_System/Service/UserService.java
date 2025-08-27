@@ -21,7 +21,7 @@ public class UserService {
 
     public User registerUser(AuthDtos.RegisterRequest request) {
         User user = new User();
-        user.setName(request.username());
+        user.setUsername(request.username());
         user.setEmail(request.email());
         user.setPassword(encoder.encode(request.password()));
 
@@ -37,7 +37,7 @@ public class UserService {
 
     public User createAdmin(String name, String email, String password) {
         User user = new User();
-        user.setName(name);
+        user.setUsername(name);
         user.setEmail(email);
         user.setPassword(encoder.encode(password));
         user.setRole(Role.ADMIN);

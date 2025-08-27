@@ -6,6 +6,7 @@ import com.example.Restaurant_Ordering_System.Entity.User;
 import com.example.Restaurant_Ordering_System.Service.MenuService;
 import com.example.Restaurant_Ordering_System.Service.OrderService;
 //import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,13 +29,13 @@ public class CustomerController {
     }
 
     @PostMapping("/orders")
-    public OrderDtos.OrderResponse placeOrder(/*@AuthenticationPrincipal*/ User customer,
+    public OrderDtos.OrderResponse placeOrder(@AuthenticationPrincipal User customer,
                                               @RequestBody OrderDtos.OrderRequest req) {
         return orderService.placeOrder(customer, req);
     }
 
     @GetMapping("/orders")
-    public List<OrderDtos.OrderResponse> getOrders(/*@AuthenticationPrincipal*/ User customer) {
+    public List<OrderDtos.OrderResponse> getOrders(@AuthenticationPrincipal User customer) {
         return orderService.getOrdersByCustomer(customer);
     }
 }
