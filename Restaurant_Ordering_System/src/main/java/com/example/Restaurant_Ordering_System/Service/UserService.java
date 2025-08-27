@@ -1,9 +1,10 @@
 package com.example.Restaurant_Ordering_System.Service;
 
+import com.example.Restaurant_Ordering_System.DTO.AuthDtos;
 import com.example.Restaurant_Ordering_System.Entity.Role;
 import com.example.Restaurant_Ordering_System.Entity.User;
 import com.example.Restaurant_Ordering_System.Repositories.UserRepository;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,19 +12,26 @@ public class UserService {
 
     public final UserRepository userRepository;
     private User request;
-    // private final PasswordEncoder encoder;
+    private final PasswordEncoder encoder;
 
-    public UserService(UserRepository userRepository /*PasswordEncoder encoder*/) {
+    public UserService(UserRepository userRepository, PasswordEncoder encoder) {
         this.userRepository = userRepository;
-        //this.encoder = encoder;
+        this.encoder = encoder;
     }
 
-    public User createCustomer(String name, String email, String password) {
+    public User registerUser(AuthDtos.RegisterRequest request) {
         User user = new User();
-        user.setName(name);
-        user.setEmail(email);
-        user.setPassword(request.getPassword());       // user.setPassword(encoder.encode(password));
-        user.setRole(Role.CUSTOMER);
+        user.setName(request.username());
+        user.setEmail(request.email());
+        user.setPassword(encoder.encode(request.password()));
+
+        // Set role based on request
+        if ("ADMIN".equalsIgnoreCase(request.role())) {
+            user.setRole(Role.ADMIN);
+        } else {
+            user.setRole(Role.CUSTOMER);
+        }
+
         return userRepository.save(user);
     }
 
@@ -31,8 +39,10 @@ public class UserService {
         User user = new User();
         user.setName(name);
         user.setEmail(email);
-        user.setPassword(request.getPassword());        //user.setPassword(encoder.encode(password));
+        user.setPassword(encoder.encode(password));
         user.setRole(Role.ADMIN);
         return userRepository.save(user);
     }
+
+
 }

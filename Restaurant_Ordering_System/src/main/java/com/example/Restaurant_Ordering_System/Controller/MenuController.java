@@ -18,13 +18,13 @@ public class MenuController {
     }
 
     // Customer & Admin: Get all menu items
-    @GetMapping
+    @GetMapping("/getAll")
     public List<MenuDtos.MenuResponse> getAllMenuItems() {
         return menuService.getAllMenuItems();
     }
 
     // Admin: Add a new menu item
-    @PostMapping
+    @PostMapping("/create/menu")
     public ResponseEntity<MenuDtos.MenuResponse> createMenuItem(@RequestBody MenuDtos.MenuRequest request) {
         return ResponseEntity.ok(convertToResponse(menuService.createMenuItem(request)));
     }
