@@ -26,7 +26,7 @@ export function LoginPage() {
 			const role = res?.user?.role || (res?.user?.roles?.includes?.("ADMIN") ? "ADMIN" : "USER");
 			if (role === "ADMIN") navigate("/admin", { replace: true }); else navigate("/", { replace: true });
 		} catch (err) {
-			setError(err?.message || "Invalid email or password");
+			setError(err?.details?.message || err?.message || "Invalid email or password");
 		} finally {
 			setLoading(false);
 		}
@@ -76,7 +76,11 @@ export function RegisterPage() {
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ name, email, password })
 			});
-			if (!res.ok) throw new Error("Registration failed");
+			if (!res.ok) {
+				let data = null;
+				try { data = await res.json(); } catch (_) {}
+				throw new Error(data?.message || "Registration failed");
+			}
 			const loginRes = await login({ email, password });
 			const role = loginRes?.user?.role || (loginRes?.user?.roles?.includes?.("ADMIN") ? "ADMIN" : "USER");
 			if (role === "ADMIN") navigate("/admin", { replace: true }); else navigate("/", { replace: true });

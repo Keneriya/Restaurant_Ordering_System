@@ -21,15 +21,20 @@ export default function AdminDashboard() {
 	const [draft, setDraft] = useState(emptyItem);
 
 	useEffect(() => {
+		const abort = new AbortController();
 		(async () => {
 			try {
-				const [m, o] = await Promise.all([api.getMenu(), api.getAllOrders()]);
+				const [m, o] = await Promise.all([
+					api.getMenu({ signal: abort.signal }),
+					api.getAllOrders({ signal: abort.signal }),
+				]);
 				setMenu(m ?? []);
 				setOrders(o ?? []);
 			} finally {
 				setLoading(false);
 			}
 		})();
+		return () => abort.abort();
 	}, [emptyItem]);
 
 	async function saveItem() {

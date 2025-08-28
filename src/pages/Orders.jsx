@@ -6,14 +6,16 @@ export default function OrdersPage() {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
+		const abort = new AbortController();
 		(async () => {
 			try {
-				const data = await api.getMyOrders();
+				const data = await api.getMyOrders({ signal: abort.signal });
 				setOrders(data ?? []);
 			} finally {
 				setLoading(false);
 			}
 		})();
+		return () => abort.abort();
 	}, []);
 
 	if (loading) return <div style={{ padding: 16 }}>Loading orders...</div>;

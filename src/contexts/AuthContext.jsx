@@ -10,8 +10,13 @@ export function AuthProvider({ children }) {
 	useEffect(() => {
 		(async () => {
 			try {
-				const me = await api.me();
-				setUser(me);
+				const token = localStorage.getItem("auth_token");
+				if (token) {
+					const me = await api.me();
+					setUser(me);
+				} else {
+					setUser(null);
+				}
 			} catch (_) {
 				setUser(null);
 			} finally {

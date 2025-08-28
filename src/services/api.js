@@ -10,7 +10,7 @@ function getAuthToken() {
 	}
 }
 
-async function request(path, { method = "GET", body, headers = {} } = {}) {
+async function request(path, { method = "GET", body, headers = {}, signal } = {}) {
 	const token = getAuthToken();
 	const response = await fetch(`${BASE_URL}${path}`, {
 		method,
@@ -21,6 +21,7 @@ async function request(path, { method = "GET", body, headers = {} } = {}) {
 		},
 		body: body instanceof FormData ? body : body ? JSON.stringify(body) : undefined,
 		credentials: "include",
+		signal,
 	});
 
 	if (!response.ok) {
@@ -45,21 +46,21 @@ async function request(path, { method = "GET", body, headers = {} } = {}) {
 
 export const api = {
 	// Auth
-	login: (credentials) => request("/auth/login", { method: "POST", body: credentials }),
-	register: (payload) => request("/auth/register", { method: "POST", body: payload }),
-	me: () => request("/auth/me"),
+	login: (credentials, opts) => request("/auth/login", { method: "POST", body: credentials, ...(opts || {}) }),
+	register: (payload, opts) => request("/auth/register", { method: "POST", body: payload, ...(opts || {}) }),
+	me: (opts) => request("/auth/me", { ...(opts || {}) }),
 
 	// Menu
-	getMenu: () => request("/menu"),
-	createMenuItem: (item) => request("/menu", { method: "POST", body: item }),
-	updateMenuItem: (id, item) => request(`/menu/${id}`, { method: "PUT", body: item }),
-	deleteMenuItem: (id) => request(`/menu/${id}`, { method: "DELETE" }),
+	getMenu: (opts) => request("/menu", { ...(opts || {}) }),
+	createMenuItem: (item, opts) => request("/menu", { method: "POST", body: item, ...(opts || {}) }),
+	updateMenuItem: (id, item, opts) => request(`/menu/${id}`, { method: "PUT", body: item, ...(opts || {}) }),
+	deleteMenuItem: (id, opts) => request(`/menu/${id}`, { method: "DELETE", ...(opts || {}) }),
 
 	// Orders
-	createOrder: (order) => request("/orders", { method: "POST", body: order }),
-	getMyOrders: () => request("/orders/my"),
-	getAllOrders: () => request("/orders"),
-	updateOrderStatus: (id, status) => request(`/orders/${id}/status`, { method: "PUT", body: { status } }),
+	createOrder: (order, opts) => request("/orders", { method: "POST", body: order, ...(opts || {}) }),
+	getMyOrders: (opts) => request("/orders/my", { ...(opts || {}) }),
+	getAllOrders: (opts) => request("/orders", { ...(opts || {}) }),
+	updateOrderStatus: (id, status, opts) => request(`/orders/${id}/status`, { method: "PUT", body: { status }, ...(opts || {}) }),
 };
 
 export default api;

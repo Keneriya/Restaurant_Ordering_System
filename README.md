@@ -1,3 +1,18 @@
+Smart Restaurant - Frontend
+
+Dev setup
+- Node 18+ recommended
+- Install deps: `npm install`
+- Create `.env.local`:
+```
+VITE_API_URL=http://localhost:8080/api
+```
+- Start: `npm run dev`
+
+Notes
+- All routes require login except `/login` and `/register`.
+- Admins are redirected to `/admin` after sign-in.
+- API calls read `VITE_API_URL`; adjust for different ports or LAN IP.
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { api } from "../services/api";
 import { useCart } from "../contexts/CartContext";
 
@@ -8,14 +8,16 @@ export default function MenuPage() {
 	const { addItem } = useCart();
 
 	useEffect(() => {
+		const abort = new AbortController();
 		(async () => {
 			try {
-				const data = await api.getMenu();
+				const data = await api.getMenu({ signal: abort.signal });
 				setMenu(data ?? []);
 			} finally {
 				setLoading(false);
 			}
 		})();
+		return () => abort.abort();
 	}, []);
 
 	if (loading) return <div style={{ padding: 16 }}>Loading menu...</div>;
