@@ -16,21 +16,22 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Temporarily disable auth: expose everything */}
-        <Route element={<AppLayout />}>
-          <Route path="/" element={<MenuPage />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/orders" element={<OrdersPage />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/menu-items" element={<AdminMenuItems />} />
-          <Route path="/admin/orders" element={<AdminOrders />} />
-          <Route path="/admin/order-items" element={<AdminOrderItems />} />
-          <Route path="/admin/order-status" element={<AdminOrderStatus />} />
-        </Route>
-
-        {/* Keep pages, but not used for now */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route element={<RequireAuth />}>
+          <Route element={<AppLayout />}>
+            <Route path="/" element={<MenuPage />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/orders" element={<OrdersPage />} />
+            <Route element={<RequireAdmin />}>
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/menu-items" element={<AdminMenuItems />} />
+              <Route path="/admin/orders" element={<AdminOrders />} />
+              <Route path="/admin/order-items" element={<AdminOrderItems />} />
+              <Route path="/admin/order-status" element={<AdminOrderStatus />} />
+            </Route>
+          </Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   )

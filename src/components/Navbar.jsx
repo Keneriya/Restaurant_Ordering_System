@@ -1,8 +1,11 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 import { useCart } from "../contexts/CartContext";
 
 export default function Navbar() {
 	const { items } = useCart();
+	const { isAuthenticated, logout } = useAuth();
+	const navigate = useNavigate();
 	const cartCount = items.reduce((sum, i) => sum + (i.quantity ?? 0), 0);
 
 	const linkStyle = ({ isActive }) => ({ textDecoration: "none", padding: "6px 8px", borderRadius: 8, background: isActive ? "#f3f4f6" : "transparent" });
@@ -18,8 +21,14 @@ export default function Navbar() {
 			<NavLink to="/admin/order-items" style={linkStyle}>Order Items</NavLink>
 			<NavLink to="/admin/order-status" style={linkStyle}>Order Status</NavLink>
 			<span style={{ flex: 1 }} />
-			<NavLink to="/login" style={linkStyle}>Login</NavLink>
-			<NavLink to="/register" style={linkStyle}>Register</NavLink>
+			{isAuthenticated ? (
+				<button onClick={() => { logout(); navigate('/login', { replace: true }); }} style={{ padding: "8px 12px", borderRadius: 8 }}>Logout</button>
+			) : (
+				<>
+					<NavLink to="/login" style={linkStyle}>Login</NavLink>
+					<NavLink to="/register" style={linkStyle}>Register</NavLink>
+				</>
+			)}
 		</nav>
 	);
 }
