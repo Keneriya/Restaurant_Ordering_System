@@ -11,4 +11,8 @@ public enum Role {
 
         return null;
     }
+
+    public boolean isEmpty() {
+        return false;
+    }
 }

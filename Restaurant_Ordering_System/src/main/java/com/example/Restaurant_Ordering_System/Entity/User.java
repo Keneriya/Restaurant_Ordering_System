@@ -19,7 +19,7 @@ public class User {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private String role;
+    private Role role;
 
     @OneToMany(mappedBy = "customer")
     private List<Order> orders;
@@ -38,8 +38,8 @@ public class User {
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
 
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
+    public Role getRole() { return role; }
+    public void setRole(Role role) { this.role = role; }
 
 
 

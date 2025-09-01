@@ -51,7 +51,7 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(request.password()));
         // Map role from request JSON
         if (user.getRole() == null || user.getRole().isEmpty()) {
-            user.setRole(String.valueOf(Role.CUSTOMER)); // default role
+            user.setRole(Role.valueOf(String.valueOf(Role.CUSTOMER))); // default role
         }
 
 
