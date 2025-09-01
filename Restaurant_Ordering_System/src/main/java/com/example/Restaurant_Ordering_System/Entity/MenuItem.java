@@ -16,7 +16,14 @@ public class MenuItem {
     private String description;
     private BigDecimal price;
     private String imageUrl;
-    private Boolean active = true;
+    private boolean active = true;
+    private boolean available = true;           // new
+    private boolean vegetarian = false;         // new
+    private boolean vegan = false;              // new
+    private boolean glutenFree = false;         // new
+
+    @Enumerated(EnumType.STRING)
+    private MenuCategory category;
 
     public Long getId() {
         return id;

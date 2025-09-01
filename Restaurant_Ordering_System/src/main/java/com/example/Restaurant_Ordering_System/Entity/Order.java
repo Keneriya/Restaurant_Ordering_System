@@ -18,10 +18,23 @@ public class Order {
     private User customer;
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private OrderStatus status = OrderStatus.PENDING;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> items;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;  // new
+    private String paymentRef;            // new (txn id / last4)
+    private boolean paid = false;         // new
+
+    private Instant createdAt = Instant.now();
+
+    // helpers
+    public void addItem(OrderItem item){
+        items.add(item);
+        item.setOrder(this);
+    }
 
     public Long getId() {
         return id;
