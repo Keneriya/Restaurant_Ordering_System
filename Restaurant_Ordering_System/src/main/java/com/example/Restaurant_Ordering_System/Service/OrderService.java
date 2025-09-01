@@ -19,14 +19,16 @@ public class OrderService {
     private final MenuItemRepo menuItemRepository;
 
     private  final OrderEventsPublisher orderEventsPublisher;
+    private final EmailService emailService;
 
     public OrderService(OrderRepository orderRepository,
                         OrderItemRepo orderItemRepository,
-                        MenuItemRepo menuItemRepository, OrderEventsPublisher orderEventsPublisher) {
+                        MenuItemRepo menuItemRepository, OrderEventsPublisher orderEventsPublisher, EmailService emailService) {
         this.orderRepository = orderRepository;
         this.orderItemRepository = orderItemRepository;
         this.menuItemRepository = menuItemRepository;
         this.orderEventsPublisher = orderEventsPublisher;
+        this.emailService = emailService;
     }
 
     // Customer: Place order
@@ -57,6 +59,12 @@ public class OrderService {
         // publish order event
         orderEventsPublisher.publishOrderUpdate(savedOrder.getId(), mapToResponse(savedOrder));
 
+        // 📧 send confirmation email
+        emailService.send(
+                savedOrder.getCustomer().getEmail(),
+                "Order #" + savedOrder.getId() + " placed",
+                "Thank you! Your order has been placed successfully."
+        );
         return mapToResponse(order);
     }
 
@@ -84,6 +92,12 @@ public class OrderService {
         // publish order event
         orderEventsPublisher.publishOrderUpdate(savedOrder.getId(), mapToResponse(savedOrder));
 
+        // 📧 send status update email
+        emailService.send(
+                savedOrder.getCustomer().getEmail(),
+                "Order #" + savedOrder.getId() + " update",
+                "Your order status is now " + savedOrder.getStatus()
+        );
         return mapToResponse(savedOrder);
     }
 
