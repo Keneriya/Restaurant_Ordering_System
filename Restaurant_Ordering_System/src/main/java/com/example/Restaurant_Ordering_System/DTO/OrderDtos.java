@@ -27,9 +27,6 @@ public class OrderDtos {
     public record OrderResponse(
             Long id,
             String status,
-            boolean paid,
-            PaymentMethod paymentMethod,
-            String paymentRef,
             List<OrderItemResponse> items
     ) {}
     public record StatusUpdateRequest(String status) {}
