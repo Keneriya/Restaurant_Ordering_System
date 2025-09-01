@@ -18,12 +18,15 @@ public class OrderService {
     private final OrderItemRepo orderItemRepository;
     private final MenuItemRepo menuItemRepository;
 
+    private  final OrderEventsPublisher orderEventsPublisher;
+
     public OrderService(OrderRepository orderRepository,
                         OrderItemRepo orderItemRepository,
-                        MenuItemRepo menuItemRepository) {
+                        MenuItemRepo menuItemRepository, OrderEventsPublisher orderEventsPublisher) {
         this.orderRepository = orderRepository;
         this.orderItemRepository = orderItemRepository;
         this.menuItemRepository = menuItemRepository;
+        this.orderEventsPublisher = orderEventsPublisher;
     }
 
     // Customer: Place order
@@ -50,6 +53,10 @@ public class OrderService {
 
 
         order.setItems(items);
+
+        // publish order event
+        orderEventsPublisher.publishOrderUpdate(savedOrder.getId(), mapToResponse(savedOrder));
+
         return mapToResponse(order);
     }
 
@@ -72,8 +79,14 @@ public class OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
         order.setStatus(status);
-        return mapToResponse(orderRepository.save(order));
+        Order savedOrder = orderRepository.save(order);
+
+        // publish order event
+        orderEventsPublisher.publishOrderUpdate(savedOrder.getId(), mapToResponse(savedOrder));
+
+        return mapToResponse(savedOrder);
     }
+
 
     private OrderDtos.OrderResponse mapToResponse(Order order) {
         List<OrderDtos.OrderItemResponse> items = order.getItems().stream()
