@@ -49,14 +49,9 @@ public class AuthService {
         user.setUsername(request.username());
         user.setEmail(request.email());
         user.setPassword(passwordEncoder.encode(request.password()));
-        if (request.getRole() != null) {
-            try {
-                user.setRole(Role.valueOf(request.getRole().toUpperCase()));
-            } catch (IllegalArgumentException e) {
-                throw new RuntimeException("Invalid role: " + request.getRole());
-            }
-        } else {
-            user.setRole(request.getRole()); // default if not provided
+        // Map role from request JSON
+        if (user.getRole() == null || user.getRole().isEmpty()) {
+            user.setRole(String.valueOf(Role.CUSTOMER)); // default role
         }
 
 
