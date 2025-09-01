@@ -20,5 +20,20 @@ public class Reservation {
 
     private String notes;
 
+    public void setCustomer(User user) {
+    }
+
+    public void setPartySize(int partySize) {
+    }
+
+    public void setReservationTime(LocalDateTime when) {
+    }
+
+    public void setNotes(String notes) {
+    }
+
+    public void setStatus(ReservationStatus status) {
+    }
+
     // getters/setters ...
 }

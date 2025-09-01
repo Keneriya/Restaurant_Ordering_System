@@ -112,4 +112,10 @@ public class OrderService {
                 )).toList();
         return new OrderDtos.OrderResponse(order.getId(), order.getStatus().name(), items);
     }
+
+    public List<OrderDtos.OrderResponse> getByStatus(OrderStatus orderStatus) {
+        return null;
+    }
+
+
 }

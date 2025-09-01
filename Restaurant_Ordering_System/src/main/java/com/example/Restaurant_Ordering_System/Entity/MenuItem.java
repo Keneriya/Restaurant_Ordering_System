@@ -75,18 +75,23 @@ public class MenuItem {
     }
 
     public MenuCategory getCategory() {
+        return null;
     }
 
     public Boolean isVegetarian() {
+        return null;
     }
 
     public Boolean isVegan() {
+        return null;
     }
 
     public Boolean isGlutenFree() {
+        return null;
     }
 
     public Boolean isAvailable() {
+        return null;
     }
 
 }

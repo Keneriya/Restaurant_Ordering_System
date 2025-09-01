@@ -3,6 +3,7 @@ package com.example.Restaurant_Ordering_System.Config;
 import com.example.Restaurant_Ordering_System.Auth.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -26,15 +27,24 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
-                .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll() // Register & login allowed
-                        .requestMatchers("/admin/**").hasRole("ADMIN") // Only ADMIN can access
-                        .requestMatchers("/user/**").hasRole("CUSTOMER") // User dashboard
-                        .anyRequest().authenticated()
-                )
+
+
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf.disable());
+
+        http.authorizeHttpRequests(auth -> auth
+                .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/ws/**").permitAll()
+                .requestMatchers("/topic/**","/app/**").permitAll()
+
+                .requestMatchers(HttpMethod.GET, "/api/menu/**").permitAll()
+                .requestMatchers("/api/reservations/**").hasAnyRole("CUSTOMER","ADMIN","WAITER")
+
+                .requestMatchers("/api/staff/**").hasAnyRole("CHEF","DELIVERY","WAITER","ADMIN")
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+
+                .anyRequest().authenticated()
+        )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
