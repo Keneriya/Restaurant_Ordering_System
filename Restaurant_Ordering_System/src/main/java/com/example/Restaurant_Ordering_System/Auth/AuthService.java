@@ -49,7 +49,16 @@ public class AuthService {
         user.setUsername(request.username());
         user.setEmail(request.email());
         user.setPassword(passwordEncoder.encode(request.password()));
-        user.setRole(Role.CUSTOMER); // IMPORTANT: do not trust client-supplied role
+        if (request.getRole() != null) {
+            try {
+                user.setRole(Role.valueOf(request.getRole().toUpperCase()));
+            } catch (IllegalArgumentException e) {
+                throw new RuntimeException("Invalid role: " + request.getRole());
+            }
+        } else {
+            user.setRole(request.getRole()); // default if not provided
+        }
+
 
         return userRepository.save(user);
     }

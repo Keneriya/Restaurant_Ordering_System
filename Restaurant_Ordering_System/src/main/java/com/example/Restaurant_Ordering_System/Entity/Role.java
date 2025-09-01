@@ -5,5 +5,10 @@ public enum Role {
     CUSTOMER,
     CHEF,
     WAITER,
-    DELIVERY
+    DELIVERY;
+
+    public String toUpperCase() {
+
+        return null;
+    }
 }
